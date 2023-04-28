@@ -22,7 +22,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hanhf.demo.pojo.User">
-    insert into user (id, `name`, sex, pwd, 
+      insert into user (id, `name`, sex, pwd,
       email)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=CHAR}, #{pwd,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR})
@@ -90,4 +90,20 @@
       email = #{email,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--分页查询-->
+  <select id="getAPPMessagesByType" resultMap="MessageResult" parameterType="HashMap">
+    select m.id,
+    m.title,m.content,m.add_time,m.update_time,m.browse_num,m.type,m.type_id,m.source,m.pic,m.is_delete,m.user_id
+    from ny_message m
+    where m.is_delete =0
+    <if test="type != null">
+      and m.type = #{type}
+    </if>
+    <if test="search != null and search != ''">
+      and locate(#{search},m.title) >0
+    </if>
+    ORDER BY m.add_time desc
+    <if test="pageNum!=null and pageSize!=null">limit ${pageNum},${pageSize}</if>
+  </select>
 </mapper>

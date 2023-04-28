@@ -6,6 +6,7 @@ import com.hanhf.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.jws.WebService;
+import java.util.List;
 
 @WebService(serviceName = "UserService", // 与接口中指定的name一致
         targetNamespace = "http://service.userService.demo.hanhf.com", // 与接口中的命名空间一致,一般是接口的包名倒
@@ -24,5 +25,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User queryUser(Integer id) {
         return null;
+    }
+
+    @Override
+    public List<User> findUsers() {
+        return userMapper.findUsers();
     }
 }
